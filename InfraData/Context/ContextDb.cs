@@ -11,6 +11,8 @@ namespace InfraData.Context
 
         public DbSet<Person> People { get; set; }
 
+        public DbSet<Note> Notes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

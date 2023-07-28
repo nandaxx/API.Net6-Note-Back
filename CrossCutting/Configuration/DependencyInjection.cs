@@ -15,6 +15,7 @@ namespace CrossCutting.Configuration
         {
             services.AddDbContext<ContextDb>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<INoteRepository, NoteRepository>();
 
             return services;
         }
