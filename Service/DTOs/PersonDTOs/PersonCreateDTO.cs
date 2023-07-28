@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace Service.DTOs.PersonDTOs
+﻿namespace Service.DTOs.PersonDTOs
 {
     public class PersonCreateDTO
     {
