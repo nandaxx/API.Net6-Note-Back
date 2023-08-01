@@ -36,7 +36,7 @@ namespace Service.Exceptions
         }
 
         public static ExceptionManager<T> NotFound<T>() => new ExceptionManager<T> { Code = 404, Message = "Not Found" };
-        public static ExceptionManager<T> BadRequest<T>(string message) => new ExceptionManager<T> { Code = 400, Message = message };
+        public static ExceptionManager<T> BadRequest<T>() => new ExceptionManager<T> { Code = 400, Message = "Bad Request" };
         public static ExceptionManager<T> Unauthorized<T>(string message) => new ExceptionManager<T> { Code = 401, Message = message };
         public static ExceptionManager<T> Forbidden<T>(string message) => new ExceptionManager<T> { Code = 403, Message = message };
         public static ExceptionManager<T> NotAcceptable<T>() => new ExceptionManager<T> { Code = 406, Message = "Caracter Not Acceptable " };

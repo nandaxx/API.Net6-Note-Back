@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Domain.Entities;
 using Domain.Repositories;
 using Service.DTOs.PersonDTOs;
 using Service.Exceptions;
 using Service.Interfaces;
-using System;
 
 namespace Service.Services
 {
@@ -42,15 +42,40 @@ namespace Service.Services
         }
         public async Task<ExceptionManager<PersonResponseDTO>> Create(PersonCreateDTO person)
         {
-            throw new NotImplementedException();
+            if (person.Email == null) return ExceptionManager.BadRequest<PersonResponseDTO>();
+            var verify = await _repository.FindByEmail(person.Email);
+            if(verify != null) return ExceptionManager.BadRequest<PersonResponseDTO>();
+            var user = _mapper.Map<Person>(person);
+            var response = await _repository.Create(user);
+            return ExceptionManager.Created<PersonResponseDTO>(_mapper.Map<PersonResponseDTO>(response));
+
         }
         public async Task<ExceptionManager<PersonResponseDTO>> Update(PersonUpdateDTO person)
         {
-            throw new NotImplementedException();
+            if (person.Email == null) return ExceptionManager.BadRequest<PersonResponseDTO>();
+            var verify = await _repository.FindByEmail(person.Email);
+            if (verify == null) return ExceptionManager.NotFound<PersonResponseDTO>();
+            verify = _mapper.Map<PersonUpdateDTO, Person>(person,verify);
+            var response = await _repository.Update(verify);
+            return ExceptionManager.Ok<PersonResponseDTO>(_mapper.Map<PersonResponseDTO>(response));
+
         }
         public async Task<ExceptionManager> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+            {
+                return ExceptionManager.NotAcceptable<PersonResponseDTO>();
+            }
+
+            var person = await _repository.FindById(id);
+
+            if (person == null)
+            {
+                return ExceptionManager.NotFound<PersonResponseDTO>();
+            }
+
+            var response = _repository.Delete(id);
+            return ExceptionManager.Ok(response);
         }
     }
 }

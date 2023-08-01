@@ -4,6 +4,6 @@
     {
         public string Message { get; set; }
         public string Title { get; set; }
-        public int IdPerson { get; set; }
+        public string EmailPerson { get; set; }
     }
 }
