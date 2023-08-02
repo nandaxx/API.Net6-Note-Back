@@ -12,5 +12,10 @@ namespace Domain.Entities
         public ICollection<Note> Notes { get; set; }
 
         public Person() { }
+
+        public override string? ToString()
+        {
+            return $"{Id}";
+        }
     }
 }

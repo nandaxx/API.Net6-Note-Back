@@ -9,6 +9,7 @@ namespace Domain.Repositories
         Task<Person> Create (Person person);
         Task<Person> Update (Person person);
         Task<bool> Delete (int id);
+        Task<Person> FindByEmail (string email);
 
     }
 }

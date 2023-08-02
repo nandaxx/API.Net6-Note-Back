@@ -55,5 +55,11 @@ namespace InfraData.Repositories
                 return false;
             }
         }
+
+        public async Task<Person> FindByEmail(string email)
+        {
+            var person = await _db.People.Include(x => x.Notes).FirstOrDefaultAsync(x => x.Email == email);
+            return person;
+        }
     }
 }

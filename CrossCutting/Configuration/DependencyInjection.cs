@@ -4,6 +4,9 @@ using InfraData.Context;
 using Microsoft.EntityFrameworkCore;
 using Domain.Repositories;
 using InfraData.Repositories;
+using Service.Mapping;
+using Service.Interfaces;
+using Service.Services;
 
 namespace CrossCutting.Configuration
 {
@@ -21,7 +24,9 @@ namespace CrossCutting.Configuration
         }
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
-           
+            services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<INoteService, NoteService>();
+            services.AddAutoMapper(typeof(DomainToDTO));
             return services;
         }
     }
