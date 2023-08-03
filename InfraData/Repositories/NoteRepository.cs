@@ -26,6 +26,12 @@ namespace InfraData.Repositories
             return note;
         }
 
+        public async Task<Note> FindByEmail(string email)
+        {
+            var note = await _db.Notes.Include(x => x.Person).FirstOrDefaultAsync(x => x.Person.Email == email);
+            return note;
+        }
+
         public async Task<Note> Create(Note note)
         {
             _db.Notes.Add(note);
