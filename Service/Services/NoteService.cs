@@ -60,7 +60,7 @@ namespace Service.Services
         public async Task<ExceptionManager<NoteResponseDTO>> Update(NoteUpdateDTO note)
         {
             if (note.EmailPerson == null) return ExceptionManager.BadRequest<NoteResponseDTO>();
-            var verify = await _person.FindByEmail(note.EmailPerson);
+            var verify = await _person.FindById((int)note.Id);
             if (verify == null) return ExceptionManager.NotFound<NoteResponseDTO>();
             var newNote = await _repository.FindById((int)note.Id);
             if (newNote == null) return ExceptionManager.NotFound<NoteResponseDTO>();
