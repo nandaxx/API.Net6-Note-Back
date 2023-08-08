@@ -50,7 +50,7 @@ namespace Service.Services
         {
             if (note.EmailPerson == null) return ExceptionManager.BadRequest<NoteResponseDTO>();
             var verify = await _person.FindByEmail(note.EmailPerson);
-            if (verify != null) return ExceptionManager.BadRequest<NoteResponseDTO>();
+            if (verify == null) return ExceptionManager.BadRequest<NoteResponseDTO>();
             var newNote = _mapper.Map<Note>(note);
             newNote.Person = verify;
             var response = await _repository.Create(newNote);

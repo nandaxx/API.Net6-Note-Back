@@ -53,7 +53,7 @@ namespace Service.Services
         public async Task<ExceptionManager<PersonResponseDTO>> Update(PersonUpdateDTO person)
         {
             if (person.Email == null) return ExceptionManager.BadRequest<PersonResponseDTO>();
-            var verify = await _repository.FindByEmail(person.Email);
+            var verify = await _repository.FindById(person.Id);
             if (verify == null) return ExceptionManager.NotFound<PersonResponseDTO>();
             verify = _mapper.Map<PersonUpdateDTO, Person>(person,verify);
             var response = await _repository.Update(verify);
@@ -75,7 +75,7 @@ namespace Service.Services
             }
 
             var response = _repository.Delete(id);
-            return ExceptionManager.Ok(response);
+            return ExceptionManager.Ok( "Id "+ id + " Deleted");
         }
     }
 }

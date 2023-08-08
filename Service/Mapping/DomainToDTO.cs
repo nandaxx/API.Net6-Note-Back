@@ -14,7 +14,11 @@ namespace Service.Mapping
             CreateMap<Person, PersonUpdateDTO>();
 
             CreateMap<Note, NoteCreateDTO>();
-            CreateMap<Note, NoteResponseDTO>();
+            CreateMap<Note, NoteResponseDTO>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message))
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+            .ForMember(dest => dest.EmailPerson, opt => opt.MapFrom(src => src.Person.Email));
             CreateMap<Note, NoteUpdateDTO>();
 
 
