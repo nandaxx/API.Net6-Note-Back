@@ -32,11 +32,20 @@ namespace NoteApi.Controllers
             return Ok(response);
         }
 
-        [HttpGet("register")]
+        [HttpPost("register")]
         public async Task<ActionResult> Create([FromBody]NoteCreateDTO note)
         {
             var response = await _noteService.Create(note);
             if (response.Code == 400) return BadRequest(response);
+            return Ok(response);
+        }
+
+        [HttpPut("update")]
+        public async Task<ActionResult> Update([FromBody] NoteUpdateDTO note)
+        {
+            var response = await _noteService.Update(note);
+            if (response.Code == 400) return BadRequest(response);
+            if (response.Code == 404) return NotFound(response);
             return Ok(response);
         }
 
