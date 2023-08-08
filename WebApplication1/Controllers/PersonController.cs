@@ -39,7 +39,7 @@ namespace NoteApi.Controllers
         public async Task<ActionResult> Create([FromBody] PersonCreateDTO dto)
         {
             var response = await _personService.Create(dto);
-            if (response.Code == 201) return Ok(response);
+            if (response.Code == 201) return StatusCode(201);
             return BadRequest(response);
 
         }

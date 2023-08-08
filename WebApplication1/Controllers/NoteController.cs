@@ -37,7 +37,7 @@ namespace NoteApi.Controllers
         {
             var response = await _noteService.Create(note);
             if (response.Code == 400) return BadRequest(response);
-            return Ok(response);
+            return StatusCode(201);
         }
 
         [HttpPut("update")]
