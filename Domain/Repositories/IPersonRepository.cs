@@ -10,6 +10,7 @@ namespace Domain.Repositories
         Task<Person> Update (Person person);
         Task<bool> Delete (int id);
         Task<Person> FindByEmail (string email);
+        Task<Person> Login(string email, string senha);
 
     }
 }

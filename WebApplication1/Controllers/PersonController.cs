@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Service.DTOs.LoginDTOs;
 using Service.DTOs.PersonDTOs;
 using Service.Interfaces;
 
@@ -42,7 +43,17 @@ namespace NoteApi.Controllers
             if (response.Code == 201) return StatusCode(201);
             return BadRequest(response);
 
+        } 
+        
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginDTO login)
+        {
+            var response = await _personService.Token(login);
+            if (response.Code == 200) return Ok(response.Data);
+            return StatusCode(403);
+
         }
+
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] PersonUpdateDTO dto)
         {
