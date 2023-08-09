@@ -1,20 +1,25 @@
 ﻿using AutoMapper;
+using Domain.Authentication;
 using Domain.Entities;
 using Domain.Repositories;
+using Service.DTOs.LoginDTOs;
 using Service.DTOs.PersonDTOs;
 using Service.Exceptions;
 using Service.Interfaces;
+using System;
 
 namespace Service.Services
 {
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository _repository;
+        private readonly ITokenGenarator _tokenGenarator;
         private readonly IMapper _mapper;
 
-        public PersonService(IPersonRepository repository, IMapper mapper)
+        public PersonService(IPersonRepository repository, ITokenGenarator tokenGenarator, IMapper mapper)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _tokenGenarator = tokenGenarator ?? throw new ArgumentNullException(nameof(tokenGenarator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -76,6 +81,20 @@ namespace Service.Services
 
             var response = _repository.Delete(id);
             return ExceptionManager.Ok( "Id "+ id + " Deleted");
+        }
+
+        public async Task<ExceptionManager<dynamic>> Token(LoginDTO login)
+        {
+            if (login.Email == null) return ExceptionManager.BadRequest<dynamic>();
+            if (login.Password == null) return ExceptionManager.BadRequest<dynamic>();
+
+            var result = await _repository.Login(login.Email, login.Password);
+
+            if(result == null) return ExceptionManager.NotFound<dynamic>();
+
+            var token = _tokenGenarator.Generator(result);
+            return ExceptionManager.Ok<dynamic>(token);
+
         }
     }
 }

@@ -2,6 +2,8 @@
 using Domain.Repositories;
 using InfraData.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace InfraData.Repositories
 {
@@ -26,8 +28,19 @@ namespace InfraData.Repositories
             return person;
         }
 
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(passwordBytes);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+        }
         public async Task<Person> Create(Person person)
         {
+            var password = HashPassword(person.PassWord);
+            person.PassWord = password;
             _db.People.Add(person);
             await _db.SaveChangesAsync();
             return person;
@@ -60,6 +73,12 @@ namespace InfraData.Repositories
         {
             var person = await _db.People.Include(x => x.Notes).FirstOrDefaultAsync(x => x.Email == email);
             return person;
+        }
+
+        public async Task<Person> Login(string email, string senha)
+        {
+            var pass = HashPassword(senha);
+            return await _db.People.FirstOrDefaultAsync(x => x.Email == email && x.PassWord == pass);
         }
     }
 }

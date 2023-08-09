@@ -1,4 +1,5 @@
-﻿using Service.DTOs.PersonDTOs;
+﻿using Service.DTOs.LoginDTOs;
+using Service.DTOs.PersonDTOs;
 using Service.Exceptions;
 
 namespace Service.Interfaces
@@ -11,5 +12,7 @@ namespace Service.Interfaces
         Task<ExceptionManager<PersonResponseDTO>> Create(PersonCreateDTO person);
         Task<ExceptionManager<PersonResponseDTO>> Update(PersonUpdateDTO person);
         Task<ExceptionManager> Delete(int id);
+        Task<ExceptionManager<dynamic>> Token(LoginDTO login);
+
     }
 }
