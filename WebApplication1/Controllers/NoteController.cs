@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.DTOs.NoteDTOs;
 using Service.Interfaces;
 
@@ -15,6 +16,7 @@ namespace NoteApi.Controllers
             _noteService = noteService ?? throw new ArgumentNullException(nameof(noteService));
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult> FindAll()
         {
@@ -23,6 +25,7 @@ namespace NoteApi.Controllers
             return BadRequest(response);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult> FindById(int id)
         {
@@ -31,7 +34,7 @@ namespace NoteApi.Controllers
             if (response.Code == 404) return NotFound(response);
             return Ok(response);
         }
-
+        [Authorize]
         [HttpPost("register")]
         public async Task<ActionResult> Create([FromBody]NoteCreateDTO note)
         {
@@ -40,6 +43,7 @@ namespace NoteApi.Controllers
             return StatusCode(201);
         }
 
+        [Authorize]
         [HttpPut("update")]
         public async Task<ActionResult> Update([FromBody] NoteUpdateDTO note)
         {
@@ -49,6 +53,7 @@ namespace NoteApi.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

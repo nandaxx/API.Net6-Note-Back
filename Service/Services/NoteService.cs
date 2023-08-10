@@ -83,7 +83,7 @@ namespace Service.Services
             }
 
             var response = _repository.Delete(id);
-            return ExceptionManager.Ok(response);
+            return ExceptionManager.Ok("Id " + id + " Deleted");
         }
     }
 
