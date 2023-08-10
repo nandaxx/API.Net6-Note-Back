@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTOs.LoginDTOs;
 using Service.DTOs.PersonDTOs;
@@ -16,7 +17,7 @@ namespace NoteApi.Controllers
         {
             _personService = personService ?? throw new ArgumentNullException(nameof(personService));
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult> FindAll()
         {
@@ -25,6 +26,7 @@ namespace NoteApi.Controllers
             return BadRequest(response);
 
         }
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult> FindById(int id)
         {
@@ -53,7 +55,7 @@ namespace NoteApi.Controllers
             return StatusCode(403);
 
         }
-
+        [Authorize]
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] PersonUpdateDTO dto)
         {
@@ -63,6 +65,7 @@ namespace NoteApi.Controllers
             return BadRequest(response);
 
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
